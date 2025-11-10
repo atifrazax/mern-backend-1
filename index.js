@@ -18,6 +18,7 @@ app.use(
   })
 ); // Enable CORS
 
+app.set("trust proxy", 1);
 app.use(rateLimit); // Apply the rate limit
 
 app.get("/", (req, res) => {
