@@ -9,6 +9,6 @@ router.post("/signin", userController.signIn);
 router.get("/csrf", csrfProtection, userController.csrf);
 router.post("/signup", csrfProtection, userController.newUser);
 router.get("/profile", auth, userController.profile);
-router.get("/logout", userController.logout);
+router.post("/logout", userController.logout);
 
 export default router;

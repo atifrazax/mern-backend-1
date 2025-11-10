@@ -72,7 +72,14 @@ const profile = (req, res) =>
   res.status(200).json({ message: "Welcome", user: req.user });
 
 const logout = (req, res) => {
-  res.status(200).clearCookie("token").json({ message: "Logout successful" });
+  res
+    .status(200)
+    .clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    })
+    .json({ message: "Logout successful" });
 };
 
 export default { newUser, signIn, profile, logout, csrf };
