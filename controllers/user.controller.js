@@ -26,17 +26,20 @@ const newUser = async (req, res) => {
 
 const signIn = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
-    if (!email || !password || !role)
+    if (!email || !password)
       return res.status(400).json({ message: "Please enter all the fields" });
 
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "User not found. Please sign up" });
 
-    if (user && user.role !== role)
-      return res.status(401).json({ message: "Unauthorized role" });
+    if (user && user.role !== "user")
+      return res.status(401).json({ message: "Unauthorized User" });
 
     if (user && (await user.matchPassword(password))) {
       const token = jwt.sign(
